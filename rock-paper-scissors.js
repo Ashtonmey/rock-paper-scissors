@@ -1,5 +1,24 @@
 
-game();
+const buttons = document.querySelectorAll("button");
+let playerSelection = null;
+let computerSelection = null;
+let playerScore = 0;
+let computerScore = 0;
+let games = 0;
+
+
+buttons.forEach((button) => {
+
+    button.addEventListener('click', function(e) {
+                console.log(this.id);
+                playerSelection = this.id.toString();
+                computerSelection = getComputerChoice();
+                playRound(playerSelection, computerSelection);
+    });
+
+});
+
+
 
 function getComputerChoice() 
 {
@@ -21,23 +40,57 @@ function getComputerChoice()
 
 function playRound(playerSelection,computerSelection)
 {
-    playerSelection = playerSelection.toLowerCase();
-    computerSelection = computerSelection.toLowerCase();
-    
-    if((playerSelection == "rock" && computerSelection == "scissors") || (playerSelection == "scissors" && computerSelection == "paper") || (playerSelection == "paper" && computerSelection == "rock"))
-    {
-        console.log(`You win! Player choice ${playerSelection} beats ${computerSelection}`);
-        return "win";
-    } else if (playerSelection == computerSelection)
-    {
-        console.log(`It's a draw! You both chose ${playerSelection}`)
-        return "draw";
-    }
-    else
-    {
-        console.log(`You lose! Computer choice ${computerSelection} beats ${playerSelection}`);
-        return "lose";
-    }
+    games++;
+    const div = document.querySelector('div');
+    const content = document.createElement('div');
+
+        if (games <= 5)
+        {            
+            playerSelection = playerSelection.toLowerCase();
+            computerSelection = computerSelection.toLowerCase();
+            
+            if((playerSelection == "rock" && computerSelection == "scissors") || (playerSelection == "scissors" && computerSelection == "paper") || (playerSelection == "paper" && computerSelection == "rock"))
+            {
+                
+                content.textContent = (`You win! Player choice ${playerSelection} beats ${computerSelection}`);
+                div.appendChild(content);
+                playerScore++;
+                return "win";
+            } else if (playerSelection == computerSelection)
+            {
+                content.textContent = (`It's a draw! You both chose ${playerSelection}`)
+                div.appendChild(content);
+                return "draw";
+            }
+            else
+            {
+                content.textContent = (`You lose! Computer choice ${computerSelection} beats ${playerSelection}`);
+                div.appendChild(content);
+                computerScore ++;
+                return "lose";
+            }
+
+        } else if (games == 6)
+        {
+            
+            if (playerScore > computerScore)
+            {
+                content.textContent = `Game Over!<br>Human wins!<br>Player Score: ${playerScore}<br>Computer score: ${computerScore}`
+            } else if (computerScore > playerScore) 
+            {
+                content.textContent = `Game Over!<br>AI wins!<br>Player Score: ${playerScore}<br>Computer score: ${computerScore}`
+            } else
+            {
+                content.textContent = `Game Over!<br>That's boring. It's a draw...<br>Player Score: ${playerScore}<br>Computer score: ${computerScore}`
+            }
+                        
+            div.appendChild(content);
+            return;
+        } else
+        {
+            return;
+        }
+
 }
 
 function game()
@@ -45,10 +98,6 @@ function game()
     let playerScore = 0;
     let computerScore = 0;
 
-    for (i = 1; i<=5; i++)
-    {
-        
-        let playerSelection = prompt("Please type rock, paper or scissors: ");
         let computerSelection = getComputerChoice();
 
         let outcome = playRound(playerSelection, computerSelection);
@@ -62,7 +111,7 @@ function game()
         }
         console.log(`Player Score: ${playerScore}`);
         console.log(`Computer score: ${computerScore}`);
-    }
+    
     
     if (playerScore > computerScore)
     {
@@ -82,3 +131,4 @@ function game()
     }
     return;
 }
+

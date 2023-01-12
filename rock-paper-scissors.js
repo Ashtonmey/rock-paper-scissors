@@ -9,8 +9,7 @@ let games = 0;
 
 buttons.forEach((button) => {
 
-    button.addEventListener('click', function(e) {
-                console.log(this.id);
+    button.addEventListener('click', function(e) {                
                 playerSelection = this.id.toString();
                 computerSelection = getComputerChoice();
                 playRound(playerSelection, computerSelection);
@@ -22,8 +21,7 @@ buttons.forEach((button) => {
 
 function getComputerChoice() 
 {
-    const num = Math.floor((Math.random()*9/3)+1);
-    console.log("Computer choice: " + num);
+    const num = Math.floor((Math.random()*9/3)+1);    
     switch(num){
         case 1:
             return "Rock";
@@ -41,6 +39,7 @@ function getComputerChoice()
 function playRound(playerSelection,computerSelection)
 {
     games++;
+    console.log(games);
     const div = document.querySelector('div');
     const content = document.createElement('div');
 
@@ -54,45 +53,44 @@ function playRound(playerSelection,computerSelection)
                 
                 content.textContent = (`You win! Player choice ${playerSelection} beats ${computerSelection}`);
                 div.appendChild(content);
-                playerScore++;
-                return "win";
+                playerScore++;                
             } else if (playerSelection == computerSelection)
             {
                 content.textContent = (`It's a draw! You both chose ${playerSelection}`)
                 div.appendChild(content);
-                return "draw";
-            }
+                            }
             else
             {
                 content.textContent = (`You lose! Computer choice ${computerSelection} beats ${playerSelection}`);
                 div.appendChild(content);
                 computerScore ++;
-                return "lose";
             }
 
-        } else if (games == 6)
+        } 
+        
+        if (games == 5)
         {
-            
-            if (playerScore > computerScore)
+                      
+            /*if (playerScore > computerScore)
             {
-                content.textContent = `Game Over!<br>Human wins!<br>Player Score: ${playerScore}<br>Computer score: ${computerScore}`
+                content.textContent = `Game Over! Human wins! Player Score: ${playerScore}. Computer score: ${computerScore}`
             } else if (computerScore > playerScore) 
             {
-                content.textContent = `Game Over!<br>AI wins!<br>Player Score: ${playerScore}<br>Computer score: ${computerScore}`
+                content.textContent = `Game Over! AI wins! Player Score: ${playerScore} Computer score: ${computerScore}`
             } else
             {
-                content.textContent = `Game Over!<br>That's boring. It's a draw...<br>Player Score: ${playerScore}<br>Computer score: ${computerScore}`
+                content.textContent = `Game Over! That's boring. It's a draw... Player Score: ${playerScore} Computer score: ${computerScore}`
             }
                         
-            div.appendChild(content);
+            div.appendChild(content);*/
+            endGame(playerScore, computerScore);
             return;
-        } else
-        {
-            return;
-        }
+        } 
 
+        console.log("this shouldn't show")
 }
 
+/*
 function game()
 {
     let playerScore = 0;
@@ -111,24 +109,36 @@ function game()
         }
         console.log(`Player Score: ${playerScore}`);
         console.log(`Computer score: ${computerScore}`);
-    
-    
-    if (playerScore > computerScore)
-    {
-        console.log ("Human wins!");
-        console.log(`Player Score: ${playerScore}`);
-        console.log(`Computer score: ${computerScore}`);
-    } else if (computerScore > playerScore) 
-    {
-        console.log ("\"AI\" wins!");
-        console.log(`Player Score: ${playerScore}`);
-        console.log(`Computer score: ${computerScore}`);
-    } else
-    {
-        console.log("That's boring. It's a draw :(");
-        console.log(`Player Score: ${playerScore}`);
-        console.log(`Computer score: ${computerScore}`);
-    }
+           
     return;
 }
+*/
 
+function endGame(playerScore, computerScore)
+{
+
+    const div = document.querySelector('div');
+    const content = document.createElement('div');
+
+    if (playerScore > computerScore)
+    {
+        content.textContent = `Game Over! Human wins! Player Score: ${playerScore}. Computer score: ${computerScore}`;
+    } else if (computerScore > playerScore) 
+    {
+        content.textContent = `Game Over! AI wins! Player Score: ${playerScore} Computer score: ${computerScore}`;
+    } else
+    {
+        content.textContent = `Game Over! That's boring. It's a draw... Player Score: ${playerScore} Computer score: ${computerScore}`;
+    }
+
+    div.appendChild(content);
+    
+    buttons.forEach((button) => {
+
+        button.removeEventListener('click', function(e) {
+                    console.log(this.id);
+        });
+    
+    });
+    
+}
